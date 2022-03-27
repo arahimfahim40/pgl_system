@@ -1,5 +1,16 @@
 @extends('admin.layout.main')
+<<<<<<< HEAD
 @section('title','Invoices')
+=======
+<?php $page_title='All invoices'; 
+ 	  if($status=='') $page_title="All invoices";
+ 		else if($status==0) $page_title="Open invoices";
+ 		else if($status==2) $page_title="Past Due invoices";
+ 		else if($status==3) $page_title="Paid invoices";
+ 		else if($status==4) $page_title="Pending invoices";
+ 	?>
+@section('title',@$page_title)
+>>>>>>> parent of affd84d (Cleared the repo)
 @section('content')
 <div class="site-content">
   <div class="content-area py-1">
@@ -25,6 +36,7 @@
 				</button>
 		   </div>
 		   <div class="form-group col-md-1 col-lg-1 col-sm-2 col-xs-12" style="margin:1%;float: right;">
+<<<<<<< HEAD
 		   		<select class="form-control" id="showEntry">
 		   			<option value="20">20</option>
 		   			<option value="50">50</option>
@@ -44,6 +56,23 @@
 		   		else if($status==3) $page_title="Paid invoices";
 		   		else if($status==4) $page_title="Pending invoices";
 		   		?>
+=======
+		   		<form action="{{route('invoice_admin',$status)}}" id="showEntryForm">
+		   			<input type="hidden" name="status" value="{{$status}}">
+		   		<select class="form-control" id="showEntry" name="paginate">
+		   			<option value="20"<?php if($paginate=='20') echo "selected"; ?>>20</option>
+		   			<option value="50"<?php if($paginate=='50') echo "selected"; ?>>50</option>
+		   			<option value="100"<?php if($paginate=='100') echo "selected"; ?>>100</option>
+		   			<option value="150"<?php if($paginate=='150') echo "selected"; ?>>150</option>
+		   			<option value="200"<?php if($paginate=='200') echo "selected"; ?>>200</option>
+		   			<option value="300"<?php if($paginate=='300') echo "selected"; ?>>300</option>
+		   			<option value="500"<?php if($paginate=='500') echo "selected"; ?>>500</option>
+		   			<option value="9000000" <?php if($paginate=='All') echo "selected"; ?>>All</option>
+		   		</select>
+		   		</form>
+		   </div>
+		   <div class="col-md-2 col-lg-2 col-sm-6 col-xs-12 text-right" style="margin-top:1.5%;float: right;text-align: right;">
+>>>>>>> parent of affd84d (Cleared the repo)
 		   	<a href="#" class="text text-warning"><b>{{$page_title}}</b></a>
 		   </div>
 	<div class="site" id="user_data">
@@ -56,14 +85,22 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		// pagination section
+<<<<<<< HEAD
 	   	$(document).on('click','.pagination a',function(e){
+=======
+	   	$(document).on('click','.pagintion a',function(e){
+>>>>>>> parent of affd84d (Cleared the repo)
 	   		e.preventDefault();
 	   		var page = $(this).attr('href').split('page=')[1];
 	   		getMoreVehicle(page);
 	   		});
 	   	
 	   	$('.search_reload').click(function(){
+<<<<<<< HEAD
 	   		getMoreVehicle(1);
+=======
+	   	  	window.location.href="{{route('invoice_admin',$status)}}";
+>>>>>>> parent of affd84d (Cleared the repo)
 	   	});
 
 	   	 function getMoreVehicle(page){
@@ -107,6 +144,7 @@
        	// show entry section
        $('#showEntry').change(function(){
        		$('#searchBody').html("<div style='position:fixed; margin-top:7%; margin-left:40%;'><img width='70px' src= '"+"{{asset('img/loading.gif')}}"+"' alt='Loading ...'> </div> ");
+<<<<<<< HEAD
        	 var data = $(this).val();
        		var request = $.ajax({
 	              url: "{{route('paginate_invoice_admin')}}",
@@ -119,6 +157,21 @@
 	            request.fail(function( jqXHR, textStatus ) {
 	            	$('#user_data').append(textStatus);
 	          });
+=======
+       		$("#showEntryForm").submit();
+       	 // var data = $(this).val();
+       		// var request = $.ajax({
+	        //       url: "{{route('paginate_invoice_admin')}}",
+	        //       method: "GET",
+	        //       data: {paginate:data,status:"{{$status}}"},
+	        //     }); 
+	        //     request.done(function( msg ) {
+	        //         $('#user_data').html(msg);
+	        //     });
+	        //     request.fail(function( jqXHR, textStatus ) {
+	        //     	$('#user_data').append(textStatus);
+	        //   });
+>>>>>>> parent of affd84d (Cleared the repo)
        });
 
        // change status section

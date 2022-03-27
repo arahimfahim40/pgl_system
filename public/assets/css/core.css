@@ -4015,7 +4015,11 @@ table.dataTable thead th.sorting_desc:after {
 
 table.dataTable thead th.sorting:after {
   content: '\f0dc';
+<<<<<<< HEAD
   color: #fff;
+=======
+  color: #333;
+>>>>>>> parent of affd84d (Cleared the repo)
   font-size: 1em;
   padding-top: 0.12em;
 }
@@ -10212,7 +10216,10 @@ a.text-grey:focus .underline, a.text-grey:hover .underline {
 
 @-moz-keyframes rotate {
   100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
+<<<<<<< HEAD
 }
 .invoice-btn-wrap{
   white-space: nowrap;
+=======
+>>>>>>> parent of affd84d (Cleared the repo)
 }

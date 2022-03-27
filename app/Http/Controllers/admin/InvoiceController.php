@@ -17,6 +17,7 @@ class InvoiceController extends Controller
         $this->invoice=$invoice;
     }
     
+<<<<<<< HEAD
     public function view_invoice($status='')
     {
          if(!auth()->guard('admin')->user()->hasPermissions(['Admin','invoices-management']))
@@ -24,16 +25,36 @@ class InvoiceController extends Controller
 
         if($status==5){
             $status='';
+=======
+    public function view_invoice($status='',Request $request)
+    {
+         if(!auth()->guard('admin')->user()->hasPermissions(['Admin','invoices-management']))
+            return view('admin.error.403');
+        $state=$status;
+        if($status==5){
+            $state='';
+        }
+        $paginate=20;
+        if($request['paginate']){
+          $paginate= $request['paginate'];
+>>>>>>> parent of affd84d (Cleared the repo)
         }
         $invoice=DB::table('pgl_invoices')->select('pgl_invoices.*','pgl_invoices.id as id','containers.container_number as container_number','companies.name as company_name')
         ->join('companies','pgl_invoices.company_id','companies.id')
         ->join('containers','containers.id','pgl_invoices.container_id')
         ->orderBy('pgl_invoices.id','desc');
            if($status !=''){
+<<<<<<< HEAD
            $invoice->where('pgl_invoices.status',$status);
             } 
           $invoices=$invoice->paginate(20);
            return view('admin.invoice.invoice',['invoices'=>$invoices,'paginate'=>20,'status'=>$status]);       
+=======
+           $invoice->where('pgl_invoices.status',$state);
+            } 
+          $invoices=$invoice->paginate($paginate);
+           return view('admin.invoice.invoice',['invoices'=>$invoices,'paginate'=>$paginate,'status'=>$status]);       
+>>>>>>> parent of affd84d (Cleared the repo)
     }
 
     public function search_invoice(Request $request)

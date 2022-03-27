@@ -100,7 +100,11 @@
 				</tfoot>
 			</table>
 			@if(!empty($vehicles))
+<<<<<<< HEAD
 			{{ $vehicles->links()}}
+=======
+			{{ $vehicles->appends(Request::All())->links()}}
+>>>>>>> parent of affd84d (Cleared the repo)
 			@endif
 		</div>
 	</div>

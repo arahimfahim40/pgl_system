@@ -105,6 +105,7 @@
 	          });
        });
 
+<<<<<<< HEAD
        // make sorable table 
        $('th').each(function (col) {
             $(this).hover(
@@ -141,6 +142,8 @@
                 });
             });
         });
+=======
+>>>>>>> parent of affd84d (Cleared the repo)
 
 	});
 </script>

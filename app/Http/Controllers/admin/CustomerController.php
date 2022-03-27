@@ -15,7 +15,11 @@ class CustomerController extends Controller
     protected $customer;
     public function __construct(CustomerModel $customer)
     {
+<<<<<<< HEAD
         $this->middleware('auth:admin');
+=======
+        $this->middleware('auth:admin');  
+>>>>>>> parent of affd84d (Cleared the repo)
         $this->customer=$customer;
     }
     // company section 
@@ -24,9 +28,15 @@ class CustomerController extends Controller
         if(!auth()->guard('admin')->user()->hasPermissions(['Admin','customer-management']))
             return view('admin.error.403');
         $companies=DB::table('companies')
+<<<<<<< HEAD
             ->orderBy('id','desc')
             ->paginate(20);
         return view('admin.customer.company',['companies'=>$companies,'paginate'=>20]);
+=======
+        ->orderBy('id','desc')
+        ->paginate(20);
+         return view('admin.customer.company',['companies'=>$companies,'paginate'=>20]);
+>>>>>>> parent of affd84d (Cleared the repo)
     }
 
     public function search_company(Request $request)
@@ -35,6 +45,7 @@ class CustomerController extends Controller
         $searchQuery = trim($request['searchValue']);
         $requestData = ['companies.name'];
         if($request->ajax()){
+<<<<<<< HEAD
             $company=DB::table('companies');
             if($request['searchValue']!=''){
                 $pagination=20000;
@@ -46,12 +57,26 @@ class CustomerController extends Controller
             $companies=$company->orderBy('id','desc')->paginate($pagination);
             return view('admin.customer.company_data',compact('companies'))->render();
         }
+=======
+       $company=DB::table('companies');  
+        if($request['searchValue']!=''){
+         $pagination=20000;
+        $company->where(function($q) use($requestData, $searchQuery) {
+                    foreach ($requestData as $field)
+                       $q->orWhere($field, 'like', "%{$searchQuery}%");
+            });
+        }
+       $companies=$company->orderBy('id','desc')->paginate($pagination); 
+        return view('admin.customer.company_data',compact('companies'))->render();
+      }
+>>>>>>> parent of affd84d (Cleared the repo)
     }
 
     public function paginate_company(Request $request)
     {
         $paginate=20;
         if($request['paginate']){
+<<<<<<< HEAD
             $paginate= $request['paginate'];
         }
         if($request->ajax()){
@@ -60,6 +85,16 @@ class CustomerController extends Controller
                 ->paginate($paginate);
             return view('admin.customer.company_data',compact('companies','paginate'))->render();
         }
+=======
+          $paginate= $request['paginate'];
+        }
+        if($request->ajax()){
+       $companies=DB::table('companies')
+       ->orderBy('id','desc')
+       ->paginate($paginate); 
+        return view('admin.customer.company_data',compact('companies','paginate'))->render();
+      }
+>>>>>>> parent of affd84d (Cleared the repo)
 
     }
 
@@ -68,10 +103,17 @@ class CustomerController extends Controller
         if(!auth()->guard('admin')->user()->hasPermissions(['Admin','delete-customer']))
             return view('admin.error.403');
 
+<<<<<<< HEAD
         if( ! auth()->guard('admin')->user()->hasPermissions(['Admin','company-management']))
             return redirect()->back();
         if(DB::table('companies')->where('id',$id)->delete()){
             return redirect()->back()->with('success','Deleted successfully');
+=======
+      if( ! auth()->guard('admin')->user()->hasPermissions(['Admin','company-management']))
+        return redirect()->back();
+       if(DB::table('companies')->where('id',$id)->delete()){
+        return redirect()->back()->with('success','Deleted successfully');
+>>>>>>> parent of affd84d (Cleared the repo)
         }
         else{
             return redirect()->back()->with('Error','Sorry,did not  delete');
@@ -104,10 +146,17 @@ class CustomerController extends Controller
             return view('admin.error.403');
 
         $customers=DB::table('customers')
+<<<<<<< HEAD
             ->select('customers.*','companies.name')
             ->join('companies','companies.id','=','customers.company_id')
             ->paginate(20);
         return view('admin.customer.customer',['customers'=>$customers,'paginate'=>20]);
+=======
+        ->select('customers.*','companies.name')
+        ->join('companies','companies.id','=','customers.company_id')
+        ->paginate(20);
+         return view('admin.customer.customer',['customers'=>$customers,'paginate'=>20]);
+>>>>>>> parent of affd84d (Cleared the repo)
     }
 
     public function search_customer(Request $request)
@@ -116,6 +165,7 @@ class CustomerController extends Controller
         $searchQuery = trim($request['searchValue']);
         $requestData = ['customers.customer_name','customers.customer_uniqe_id','companies.name'];
         if($request->ajax()){
+<<<<<<< HEAD
             $customer=DB::table('customers')
                 ->select('customers.*','companies.name')
                 ->join('companies','companies.id','=','customers.company_id');
@@ -129,12 +179,28 @@ class CustomerController extends Controller
             $customers=$customer->orderBy('id','desc')->paginate($pagination);
             return view('admin.customer.customer_data',compact('customers'))->render();
         }
+=======
+        $customer=DB::table('customers')
+        ->select('customers.*','companies.name')
+        ->join('companies','companies.id','=','customers.company_id');
+        if($request['searchValue']!=''){
+         $pagination=20000;
+        $customer->where(function($q) use($requestData, $searchQuery) {
+                    foreach ($requestData as $field)
+                       $q->orWhere($field, 'like', "%{$searchQuery}%");
+            });
+        }
+       $customers=$customer->orderBy('id','desc')->paginate($pagination); 
+        return view('admin.customer.customer_data',compact('customers'))->render();
+      }
+>>>>>>> parent of affd84d (Cleared the repo)
     }
 
     public function paginate_customer(Request $request)
     {
         $paginate=20;
         if($request['paginate']){
+<<<<<<< HEAD
             $paginate= $request['paginate'];
         }
         if($request->ajax()){
@@ -144,6 +210,17 @@ class CustomerController extends Controller
                 ->paginate($paginate);
             return view('admin.customer.customer_data',compact('customers','paginate'))->render();
         }
+=======
+          $paginate= $request['paginate'];
+        }
+        if($request->ajax()){
+        $customers=DB::table('customers')
+        ->select('customers.*','companies.name')
+        ->join('companies','companies.id','=','customers.company_id')
+       ->paginate($paginate); 
+        return view('admin.customer.customer_data',compact('customers','paginate'))->render();
+      }
+>>>>>>> parent of affd84d (Cleared the repo)
 
     }
 
@@ -153,10 +230,17 @@ class CustomerController extends Controller
             return view('admin.error.403');
 
         if (DB::table('customers')
+<<<<<<< HEAD
                 ->where('email', $request['email'])
                 ->first() || DB::table('customers')
                 ->where('customer_uniqe_id', $request['uid'])
                 ->first()) {
+=======
+            ->where('email', $request['email'])
+            ->first() || DB::table('customers')
+            ->where('customer_uniqe_id', $request['uid'])
+            ->first()) {
+>>>>>>> parent of affd84d (Cleared the repo)
             return redirect()->back()->with('errors1', 'Email Duplicate')->with('errors2', 'Unique ID Duplicate');
         } else {
             $add_customer = new CustomerModel();
@@ -318,10 +402,17 @@ class CustomerController extends Controller
     // find a customer 
     public function singel_customer(Request $request)
     {
+<<<<<<< HEAD
         $customers=DB::table('customers')->select('id','customer_name')->where('company_id',$request['company_id'])->first();
 
         $data="<option value='$customers->id'>".$customers->customer_name.="</option>";
         echo ($data);
+=======
+      $customers=DB::table('customers')->select('id','customer_name')->where('company_id',$request['company_id'])->first();
+      
+        $data="<option value='$customers->id'>".$customers->customer_name.="</option>";
+        echo $data;
+>>>>>>> parent of affd84d (Cleared the repo)
     }
 
     function delete_customer($id='')
@@ -329,13 +420,18 @@ class CustomerController extends Controller
         if(!auth()->guard('admin')->user()->hasPermissions(['Admin','delete-customer']))
             return view('admin.error.403');
 
+<<<<<<< HEAD
         if(DB::table('customers')->where('id',$id)->delete()){
+=======
+       if(DB::table('customers')->where('id',$id)->delete()){
+>>>>>>> parent of affd84d (Cleared the repo)
             return redirect()->back()->with('success','Deleted successfully');
         }
         else{
             return redirect()->back()->with('Error','Sorry,did not  delete');
         }
     }
+<<<<<<< HEAD
     public function get_customer(Request $request)
     {
         $customers = DB::table('customers')->select('id', 'customer_name', 'consignee')->where('id', $request['customer_id'])->first();
@@ -351,5 +447,14 @@ class CustomerController extends Controller
         return response()->json($customers);
 
     }
+=======
+
+
+    
+
+
+
+
+>>>>>>> parent of affd84d (Cleared the repo)
 
 }

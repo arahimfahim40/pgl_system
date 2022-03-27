@@ -18,11 +18,28 @@ class ShipmentController extends Controller
         $this->middleware('auth:admin');  
     }
 
+<<<<<<< HEAD
     public function shipment($status='',$locations='')
     {
         if(!auth()->guard('admin')->user()->hasPermissions(['Admin','shipment-management']))
             return view('admin.error.403');
 
+=======
+    public function shipment($status='',$locations='',Request $request)
+    {
+        if(!auth()->guard('admin')->user()->hasPermissions(['Admin','shipment-management']))
+            return view('admin.error.403');
+        $paginate=500;
+        if($request['paginate']){
+          $paginate= $request['paginate'];
+        }
+        if($status==10 or $status==2){
+            $paginate=20;
+        }
+        if($status==1){
+           $paginate=200; 
+        }
+>>>>>>> parent of affd84d (Cleared the repo)
         $sta=$status;
         $location=$locations;
         if($status==10){
@@ -56,8 +73,13 @@ class ShipmentController extends Controller
                $shipment->where('containers.port_loading','like', '%'.$location.'%');
             }
            $shipment->orderBy('containers.id','desc');
+<<<<<<< HEAD
           $shipments=$shipment->paginate(20);
            return view('admin.shipment.shipment',['shipments'=>$shipments,'paginate'=>20,'status'=>$sta,'location'=>$location]);      
+=======
+          $shipments=$shipment->paginate($paginate);
+           return view('admin.shipment.shipment',['shipments'=>$shipments,'paginate'=>$paginate,'status'=>$sta,'location'=>$location]);      
+>>>>>>> parent of affd84d (Cleared the repo)
     }
 
     public function search_shipment(Request $request)
@@ -516,5 +538,101 @@ class ShipmentController extends Controller
 
     }
 
+<<<<<<< HEAD
+=======
+    // Archive or shipment section 
+    public function archive_shipment()
+    {
+        if(!auth()->guard('admin')->user()->hasPermissions(['Admin','shipment-management']))
+            return view('admin.error.403');
+
+        $shipments = DB::table('containers')
+          ->select(
+                "containers.id",
+                "containers.container_number",
+                "containers.booking_number",
+                "containers.inv_number",
+                 "containers.aes_itn_number",
+                "containers.customer_note",
+                "companies.name as company_name")
+           ->leftJoin('companies','companies.id','=','containers.company_id')
+           ->where('containers.port_loading','like', '%'.'Savannah'.'%')
+           ->orderBy('containers.id','desc')
+           ->paginate(20);
+           return view('admin.shipment.archive_shipment',['shipments'=>$shipments,'paginate'=>20,'status'=>0,'location'=>'Savannah']);      
+    }
+
+    public function search_archive_shipment(Request $request)
+    {
+       $pagination=20;
+       $status ='Savannah';
+       $location=$request['locations'];
+        $searchQuery = trim($request['searchValue']);
+        $requestData = ['containers.booking_number','containers.container_number','containers.vessel_name','containers.inv_number'];
+        if($request->ajax()){
+        $shipment = DB::table('containers')
+        ->select(
+             "containers.id",
+            "containers.container_number",
+            "containers.booking_number",
+            "containers.inv_number",
+            "containers.customer_note",
+            "containers.aes_itn_number",
+            "companies.name as company_name")
+           ->leftjoin('companies','companies.id','=','containers.company_id');
+           if(strlen($searchQuery) >=3){
+             $pagination=100;
+            $shipment->where(function($q) use($requestData, $searchQuery) {
+                    foreach ($requestData as $field)
+                     $q->orWhere($field, 'like', "%{$searchQuery}%");
+                });
+            }
+           $shipment
+           ->where('containers.port_loading','like', '%'.'Savannah'.'%')
+           ->orderBy('containers.id','desc');
+          $shipments=$shipment->paginate($pagination);
+           return view('admin.shipment.archive_shipment_data',['shipments'=>$shipments,'paginate'=>20,'status'=>$status,'location'=>$location]);
+        } 
+    }
+
+    public function paginate_archive_shipment(Request $request)
+    {
+        $pagination=20;
+        $status ='Savannah';
+        $location=$request['locations'];
+        if($request['paginate']){
+          $pagination= $request['paginate'];
+        }
+
+         if($request->ajax()){
+             $shipments = DB::table('containers')
+             ->select(
+                "containers.id",
+                "containers.container_number",
+                "containers.booking_number",
+                "containers.inv_number",
+                 "containers.aes_itn_number",
+                "containers.customer_note",
+                "companies.name as company_name")
+               ->leftJoin('companies','companies.id','=','containers.company_id')
+              ->where('containers.port_loading','like', '%'.'Savannah'.'%')
+              ->orderBy('containers.id','desc')
+              ->paginate($pagination);
+               return view('admin.shipment.archive_shipment_data',['shipments'=>$shipments,'paginate'=>20,'status'=>$status,'location'=>$location]);
+        
+      }
+    }
+
+    public function add_archive_shipment(Request $request)
+    {
+       $update_shipment = ShipmentModel::find($request['id']);
+        $update_shipment->title_archive_reference_no = $request['reference_no'];
+        $update_shipment->title_archive_note = $request['note'];
+        $update_shipment->update();
+        return redirect()->back()->with('success','Update Successfully');  
+    }
+
+
+>>>>>>> parent of affd84d (Cleared the repo)
 
 }

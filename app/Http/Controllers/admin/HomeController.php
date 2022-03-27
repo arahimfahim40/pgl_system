@@ -289,6 +289,12 @@ function shipment_summary(){
         $arrivedshipment= DB::table('containers')
                 ->where('status',2)
                 ->count();
+<<<<<<< HEAD
+=======
+        $title_archive = DB::table('containers')
+                ->where('port_loading','like', '%'.'Savannah'.'%')
+                ->count(); 
+>>>>>>> parent of affd84d (Cleared the repo)
         $all_shipment = DB::table('containers')->count();
               
 
@@ -327,6 +333,10 @@ function shipment_summary(){
             'submitsishipment'=>$submitsishipment,
             'onthewayshipment'=>$onthewayshipment,
             'arrivedshipment'=>$arrivedshipment,
+<<<<<<< HEAD
+=======
+            'titlearchiveshipment'=>$title_archive,
+>>>>>>> parent of affd84d (Cleared the repo)
 
             'allinvoice'=>$allinvoice,
             'openinvoice'=>$openinvoice,

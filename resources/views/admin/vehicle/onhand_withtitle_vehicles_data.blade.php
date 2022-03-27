@@ -42,7 +42,11 @@
                         @endif
                         @if(Auth::guard('admin')->user()->hasPermissions(['Admin','add-to-container']))
                         <td>
+<<<<<<< HEAD
                         	<input name="id" type="checkbox" class="checkbox" value="{{$veh->id}}" data-id="{{$veh->id}}"> 
+=======
+                        	<input name="id[]" type="checkbox" class="checkbox" value="{{$veh->id}}" data-id="{{$veh->id}}"> 
+>>>>>>> parent of affd84d (Cleared the repo)
                         </td>
                         @endif
 						<td >
@@ -76,7 +80,11 @@
 						<td><span class="tag tag-primary">{{$veh->lot_number}}</span></td>
 						<td> <?php if(@$veh->cont_id!='0') { ?><span class="tag tag-warning">Reserve </span> <?php } else echo ""; ?> 
 						</td>
+<<<<<<< HEAD
 						<td><span class="tag tag-success">{{$veh->company_name}}</span></td>
+=======
+						<td><span class="tag tag-success">{{(@$veh->company_name) ? @$veh->company_name : @$veh->name }}</span></td>
+>>>>>>> parent of affd84d (Cleared the repo)
 					    <td>{{@$veh->c_remark}}</td>
                         <td><span class="tag tag-primary">{{$veh->deliver_date}}</span></td>
                         <td><?php
